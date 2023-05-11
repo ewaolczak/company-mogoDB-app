@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const ObjectId = require('mongodb').ObjectId;
 const Employee = require('../models/employee.model');
 
 router.get('/employees', async (req, res) => {
@@ -35,10 +34,11 @@ router.get('/employees/:id', async (req, res) => {
 
 router.post('/employees', async (req, res) => {
   try {
-    const { firstName, lastName } = req.body;
+    const { firstName, lastName, department } = req.body;
     const newEmployee = new Employee({
       firstName: firstName,
-      lastName: lastName
+      lastName: lastName,
+      department: department
     });
     await newEmployee.save();
     res.json({ message: 'OK' });
