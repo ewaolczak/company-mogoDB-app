@@ -7,7 +7,7 @@ const departmentSchema = new mongoose.Schema({
   Dlatego też możemy go w ogóle pominąć w schemacie
   */
   // _id: { type: mongoose.Types.ObjectId, required: true },
-  name: { type: String, required: true }
+  name: { type: String, required: true, minlength: 5, maxlength: 20 }
 });
 
 module.exports = mongoose.model('Department', departmentSchema);
