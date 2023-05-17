@@ -1,4 +1,4 @@
-const Employee = require('../employee.model');
+const Employee = require('../models/employee.model');
 const expect = require('chai').expect;
 
 describe('Employee', () => {
