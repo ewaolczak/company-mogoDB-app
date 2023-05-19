@@ -55,4 +55,20 @@ describe('Employee', () => {
       await Employee.deleteMany();
     });
   });
+
+  describe('Creating data', async () => {
+    it('should insert new document with insertOne method', async () => {
+      const employee = new Employee({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      await employee.save();
+      expect(employee.isNew).to.be.false;
+    });
+
+    after(async () => {
+      await Employee.deleteMany();
+    });
+  });
 });
