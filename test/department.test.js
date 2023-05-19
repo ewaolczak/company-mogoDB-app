@@ -9,10 +9,6 @@ describe('Department', () => {
     dep.validate((err) => {
       expect(err.errors.name).to.exist;
     });
-
-    after(() => {
-      mongoose.models = {};
-    });
   });
 
   it('should throw an error if "name" is not a string', () => {
