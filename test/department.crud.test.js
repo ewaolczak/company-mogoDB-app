@@ -1,6 +1,6 @@
 const Department = require('../models/department.model');
 const expect = require('chai').expect;
-mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 describe('Department', () => {
   before(async () => {
