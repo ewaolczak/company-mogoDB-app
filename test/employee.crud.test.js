@@ -142,4 +142,61 @@ describe('Employee', () => {
       await Employee.deleteMany();
     });
   });
+
+  describe('Removing data', async () => {
+    beforeEach(async () => {
+      const testEmpOne = new Employee({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      await testEmpOne.save();
+
+      const testEmpTne = new Employee({
+        firstName: 'Amanda',
+        lastName: 'Clark',
+        department: 'Management'
+      });
+      await testEmpTne.save();
+    });
+
+    it('should properly remove one document with deleteOne method', async () => {
+      await Employee.deleteOne({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      const deletedEmployee = await Employee.findOne({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      expect(deletedEmployee).to.be.null;
+    });
+
+    it('should properly remove one document with remove method', async () => {
+      const employee = await Employee.findOne({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      await employee.remove();
+      const removedEmployee = await Employee.findOne({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      expect(removedEmployee).to.be.null;
+    });
+
+    it('should properly remove multiple documents with deleteMany method', async () => {
+      await Employee.deleteMany();
+      const employees = await Employee.find();
+      expect(employees.length).to.be.equal(0);
+    });
+
+    afterEach(async () => {
+      await Employee.deleteMany();
+    });
+  });
 });
