@@ -71,4 +71,75 @@ describe('Employee', () => {
       await Employee.deleteMany();
     });
   });
+
+  describe('Updating data', async () => {
+    beforeEach(async () => {
+      const testEmpOne = new Employee({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      await testEmpOne.save();
+
+      const testEmpTne = new Employee({
+        firstName: 'Amanda',
+        lastName: 'Clark',
+        department: 'Management'
+      });
+      await testEmpTne.save();
+    });
+
+    it('should properly update one document with updateOne method', async () => {
+      await Employee.updateOne(
+        { firstName: 'John', lastName: 'Doe', department: 'IT' },
+        { $set: { firstName: '=John=', lastName: '=Doe=', department: '=IT=' } }
+      );
+      const updatedEmployee = await Employee.findOne({
+        firstName: '=John=',
+        lastName: '=Doe=',
+        department: '=IT='
+      });
+      expect(updatedEmployee).to.not.be.null;
+    });
+
+    it('should properly update one document with save method', async () => {
+      const employee = await Employee.findOne({
+        firstName: 'John',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      employee.firstName = '=John=';
+      await employee.save();
+
+      const updatedEmployee = await Employee.findOne({
+        firstName: '=John=',
+        lastName: 'Doe',
+        department: 'IT'
+      });
+      expect(updatedEmployee).to.not.be.null;
+    });
+
+    it('should properly update multiple documents with updateMany method', async () => {
+      await Employee.updateMany(
+        {},
+        {
+          $set: {
+            firstName: 'Updated!',
+            lastName: 'Updated!',
+            department: 'Updated!'
+          }
+        }
+      );
+      const employees = await Employee.find({
+        firstName: 'Updated!',
+        lastName: 'Updated!',
+        department: 'Updated!'
+      });
+      expect(employees.length).to.be.equal(2);
+    });
+
+    afterEach(async () => {
+      await Employee.deleteMany();
+    });
+  });
 });
