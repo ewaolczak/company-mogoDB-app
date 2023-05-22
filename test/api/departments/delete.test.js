@@ -49,19 +49,15 @@ describe('DELETE /api/departments', () => {
   });
 
   it('/ should delete all document and return success', async () => {
-    const res = await request(server).delete('/api/departments');
-    const deletedDepartments = await Department.findOne({
-      name: 'Department #1'
-    });
+    const res = await request(server).deleteMany('/api/departments');
+    const deletedDepartments = await Department.find();
     expect(res.status).to.be.equal(404);
     expect(deletedDepartments).to.be.null;
   });
 
-  it('/ should return error if there is no one document', async () => {
-    const res = await request(server).get(
-      '/api/departments/5d9f1159f81ce8d1ef2b2023'
-    );
-    expect(res.status).to.be.equal(404);
+  it('/ should return true if there is no one document', async () => {
+    const res = await request(server).get('/api/departments/'); // BRAK TAKIEGO ENDPOINTU!!!
+    expect(res.status.body).to.be.equal(0);
   });
 
   after(async () => {

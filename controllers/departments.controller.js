@@ -1,4 +1,4 @@
-const Department = require('../models/department.model')
+const Department = require('../models/department.model');
 
 exports.getAll = async (req, res) => {
   try {
@@ -63,6 +63,18 @@ exports.delete = async (req, res) => {
     const dep = await Department.findById(req.params.id);
     if (dep) {
       await Department.deleteOne({ _id: req.params.id });
+      res.json({ message: 'OK', dep: dep });
+    } else res.status(404).json({ message: 'Not found...' });
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+};
+
+exports.deleteAll = async (req, res) => {
+  try {
+    const dep = await Department.find();
+    if (dep) {
+      await Department.deleteMany();
       res.json({ message: 'OK', dep: dep });
     } else res.status(404).json({ message: 'Not found...' });
   } catch (err) {
